@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FocusLens</title>
+<meta name="description" content="A study timer that watches your focus, not your clock. It pauses when you look away and resumes when you come back. Everything runs on your device.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230a9c8c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23fff'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%230e1b2c'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-state="idle">
+
+<header class="top">
+  <a class="brand" href="#" aria-label="FocusLens">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="14" class="bm-ring"/>
+      <g class="bm-blades">
+        <path d="M16 4 L21 12 L11 12Z"/><path d="M26.4 10 L24 19 L16 14Z"/><path d="M26.4 22 L18 24 L18 15Z"/>
+        <path d="M16 28 L11 20 L21 20Z"/><path d="M5.6 22 L8 13 L16 18Z"/><path d="M5.6 10 L14 8 L14 17Z"/>
+      </g>
+      <circle cx="16" cy="16" r="3.2" class="bm-core"/>
+    </svg>
+    <span class="brand-name">FocusLens</span>
+  </a>
+  <div class="top-actions">
+    <button class="btn ghost" id="btnHood" aria-expanded="false" aria-controls="hood">Under the hood</button>
+    <button class="btn ghost icon" id="btnTheme" aria-label="Switch light and dark theme" title="Theme">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z" fill="currentColor"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="notice" id="hiddenNotice" hidden role="status">
+  <strong>Keep this tab visible.</strong> Browsers slow down hidden tabs, so FocusLens can’t watch you from the background. Put this window side by side with your work, or use the floating timer.
+</div>
+
+<main class="layout">
+
+  <!-- ===== Timer stage ===== -->
+  <section class="stage" aria-label="Timer">
+    <div class="presets" role="group" aria-label="Session length">
+      <button class="chip on" data-preset="25-5">25 / 5</button>
+      <button class="chip" data-preset="50-10">50 / 10</button>
+      <button class="chip" data-preset="1-1">1 / 1 quick demo</button>
+      <button class="chip" data-preset="custom">Custom</button>
+    </div>
+    <div class="custom" id="customBox" hidden>
+      <label>Focus <input type="number" id="cFocus" min="1" max="180" value="30"> min</label>
+      <label>Break <input type="number" id="cBreak" min="0" max="60" value="5"> min</label>
+    </div>
+
+    <div class="lens-wrap">
+      <div class="lens" id="lens" role="timer" aria-live="off">
+        <svg viewBox="0 0 400 400" class="lens-svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="gProg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="var(--prog-a)"/><stop offset="1" stop-color="var(--prog-b)"/>
+            </linearGradient>
+          </defs>
+          <g id="ticks" class="ticks"></g>
+          <circle cx="200" cy="200" r="150" class="track"/>
+          <circle cx="200" cy="200" r="150" class="prog" id="prog" transform="rotate(-90 200 200)"/>
+          <circle cx="200" cy="200" r="122" class="inner"/>
+        </svg>
+        <div class="lens-center">
+          <div class="clock" id="clock">25:00</div>
+          <div class="phase" id="phaseLabel">Focus, round 1 of 4</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="status" id="status" role="status" aria-live="polite">
+      <span class="dot" aria-hidden="true"></span>
+      <div class="status-text">
+        <strong id="statusMain">Ready when you are</strong>
+        <span id="statusSub">Press start. We’ll turn on your camera and take a quick look at how you sit.</span>
+      </div>
+    </div>
+
+    <div class="detector-picker" role="group" aria-label="Choose focus detection model">
+      <button class="detector-choice" type="button" data-detector-mode="rules" aria-pressed="false">Rules only</button>
+      <button class="detector-choice" type="button" data-detector-mode="rf" aria-pressed="false">MLP classifier</button>
+      <button class="detector-choice" type="button" data-detector-mode="both" aria-pressed="false">Both models</button>
+    </div>
+    <div class="controls">
+      <button class="btn primary big" id="btnMain">Start focus</button>
+      <button class="btn" id="btnSkip" hidden>Skip break</button>
+      <button class="btn ghost" id="btnEnd" hidden>End session</button>
+    </div>
+
+
+    <div class="timeline">
+      <div class="tl-head">
+        <h2>Session timeline</h2>
+        <ul class="legend">
+          <li><i class="k-focus"></i>Focused</li>
+          <li><i class="k-drowsy"></i>Eyes heavy</li>
+          <li><i class="k-grace"></i>Heads up</li>
+          <li><i class="k-paused"></i>Paused</li>
+          <li><i class="k-manual"></i>Paused by you</li>
+          <li><i class="k-break"></i>Break</li>
+        </ul>
+      </div>
+      <canvas id="tl" height="34"></canvas>
+      <p class="tl-empty" id="tlEmpty">Your timeline fills in as you study. Hover any stretch to see what it was. Amber means you drifted, red means the timer paused for a reason, grey means you paused it.</p>
+    </div>
+  </section>
+
+  <!-- ===== Side column ===== -->
+  <aside class="side">
+
+    <section class="finder" id="finder" aria-label="Camera">
+      <div class="finder-frame">
+        <video id="video" playsinline muted></video>
+        <canvas id="mesh"></canvas>
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="finder-chip" id="finderChip"><span class="dot"></span><span id="finderChipText">Camera off</span></div>
+
+        <div class="finder-empty" id="finderEmpty">
+          <svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="3" fill="currentColor"/></svg>
+          <p><strong>Your camera stays on your device.</strong><br>Nothing is recorded, uploaded or saved.</p>
+          <button class="btn primary" id="btnCam">Turn on camera</button>
+          <p class="tiny" id="camError" hidden></p>
+          <button class="btn small ghost" id="btnNoCam" hidden>Use the timer without a camera</button>
+        </div>
+
+        <div class="calib" id="calib" hidden>
+          <div class="calib-ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" class="c-track"/><circle cx="50" cy="50" r="44" class="c-prog" id="calibProg" transform="rotate(-90 50 50)"/></svg><b id="calibNum">3</b></div>
+          <p id="calibMsg">Look at the middle of your screen</p>
+        </div>
+      </div>
+      <p class="finder-tip"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M10 2l1.6 4.4L16 8l-4.4 1.6L10 14l-1.6-4.4L4 8l4.4-1.6z" fill="currentColor"/></svg>Wipe your camera lens and face a light. A clean lens and even light give steadier readings.</p>
+      <div class="finder-bar">
+        <label class="switch"><input type="checkbox" id="optMesh" checked><span></span>Face outline</label>
+        <label class="switch"><input type="checkbox" id="optPrivacy"><span></span>Blur my video</label>
+        <button class="btn small ghost" id="btnRecal" disabled>Recalibrate</button>
+      </div>
+    </section>
+
+    <section class="rules" aria-label="Focus rules">
+      <div class="rule">
+        <div class="rule-head"><h2>Grace window</h2><span class="hint">How long you can look away before the timer pauses</span></div>
+        <div class="seg" id="segGrace" role="group" aria-label="Grace window">
+          <button data-v="3">3 s</button><button data-v="5" class="on">5 s</button><button data-v="10">10 s</button><button data-v="15">15 s</button><button data-v="30">30 s</button>
+        </div>
+      </div>
+      <div class="rule">
+        <div class="rule-head"><h2>Strictness</h2><span class="hint" id="strictHint">Head turn and tilt limit: 15° from where you sit</span></div>
+        <div class="seg" id="segStrict" role="group" aria-label="Strictness">
+          <button data-v="strict" class="on">Strict ±15°</button><button data-v="balanced">Balanced ±20°</button><button data-v="relaxed">Relaxed ±25°</button>
+        </div>
+      </div>
+      <p class="tiny detector-help" id="detectorHelp">The original MediaPipe measurements and FocusLens rules control the timer. This mode does not produce Focused / Not focused classes.</p>
+      <div class="toggles">
+        <label class="switch"><input type="checkbox" id="optNotes"><span></span>Notes mode <em>looking down is fine</em></label>
+        <label class="switch"><input type="checkbox" id="optSound" checked><span></span>Sounds</label>
+      </div>
+    </section>
+
+    <section class="meters" aria-label="Live readings">
+      <div class="meters-head"><h2>What FocusLens sees</h2><span class="hint" id="metersHint">Camera off</span></div>
+      <div class="meter" id="mYaw">
+        <div class="m-label"><span>Left</span><b>Head turn</b><span>Right</span></div>
+        <div class="m-track"><i class="m-safe"></i><i class="m-dot"></i></div>
+      </div>
+      <div class="meter" id="mPitch">
+        <div class="m-label"><span>Up</span><b>Head tilt</b><span>Down</span></div>
+        <div class="m-track"><i class="m-safe"></i><i class="m-dot"></i></div>
+      </div>
+      <div class="meter" id="mEye">
+        <div class="m-label"><span>Open</span><b>Eyes</b><span>Closed</span></div>
+        <div class="m-track eye"><i class="m-warn"></i><i class="m-bad"></i><i class="m-dot"></i></div>
+      </div>
+      <div class="classifier-live" aria-live="polite"><span>MLP classifier prediction</span><strong id="classifierStatus">Waiting for camera</strong></div>
+    </section>
+  </aside>
+</main>
+
+<footer class="foot">
+  FocusLens runs your selected focus detector on your device. No video leaves this page.
+</footer>
+
+<!-- ===== Under the hood drawer ===== -->
+<aside class="hood" id="hood" hidden aria-label="Under the hood">
+  <div class="hood-head">
+    <h2>Under the hood</h2>
+    <button class="btn ghost icon" id="hoodClose" aria-label="Close">✕</button>
+  </div>
+
+  <h3>Live values</h3>
+  <table class="vals">
+    <tr><th>State</th><td id="vState">idle</td></tr>
+    <tr><th>Yaw (left +, right −)</th><td id="vYaw">–</td></tr>
+    <tr><th>Pitch (down +, up −)</th><td id="vPitch">–</td></tr>
+    <tr><th>Roll</th><td id="vRoll">–</td></tr>
+    <tr><th>EAR left / right</th><td id="vEAR">–</td></tr>
+    <tr><th>Active detection method</th><td id="vMode">Rule-based logic</td></tr>
+    <tr><th>Classifier prediction</th><td id="vClassifier">Waiting for face</td></tr>
+    <tr><th>Eyes L / R (MediaPipe blink)</th><td id="vEyes">–</td></tr>
+    <tr><th>Eye score used</th><td id="vEye">–</td></tr>
+    <tr><th>Sits at (calibrated)</th><td id="vBase">0° / 0°</td></tr>
+    <tr><th>Detector</th><td id="vDet">–</td></tr>
+  </table>
+
+  <h3>Thresholds</h3>
+  <div class="sliders">
+    <label>Eye warning <output id="oWarn">0.40</output><input type="range" id="sWarn" min="0.05" max="0.49" step="0.01" value="0.4"></label>
+    <label>Eyes closed <output id="oClosed">0.50</output><input type="range" id="sClosed" min="0.3" max="0.9" step="0.01" value="0.5"></label>
+    <label>Ignore glitches shorter than <output id="oBlink">0.5 s</output><input type="range" id="sBlink" min="0" max="1500" step="50" value="500"></label>
+    <label>Resume after in range for <output id="oResume">0.3 s</output><input type="range" id="sResume" min="0" max="2000" step="50" value="300"></label>
+    <label class="switch"><input type="checkbox" id="optAvg"><span></span>Average both eyes <em>default is the worse eye</em></label>
+  </div>
+
+  <h3>Simulator</h3>
+  <p class="tiny">No camera needed. Pick a state and the timer reacts as if you did it.</p>
+  <label class="switch"><input type="checkbox" id="optSim"><span></span>Use simulator instead of camera</label>
+  <div class="sim" id="sim">
+    <button data-sim="focus">Focused</button>
+    <button data-sim="left">Look left</button>
+    <button data-sim="right">Look right</button>
+    <button data-sim="down">Look down</button>
+    <button data-sim="up">Look up</button>
+    <button data-sim="drowsy">Drowsy eyes</button>
+    <button data-sim="closed">Eyes closed</button>
+    <button data-sim="noface">No face</button>
+  </div>
+</aside>
+
+<!-- ===== First-launch introduction ===== -->
+<dialog id="welcomeDialog" class="welcome-dialog" aria-labelledby="welcomeTitle">
+  <div class="welcome-content">
+    <div class="welcome-brand"><span class="welcome-mark" aria-hidden="true">◎</span> FocusLens</div>
+    <section id="welcomeStep1" class="welcome-step">
+      <p class="welcome-eyebrow">WELCOME</p>
+      <h2 id="welcomeTitle">Focus on your work. Let FocusLens watch the timer.</h2>
+      <p>FocusLens is a focus timer that uses your webcam to estimate whether you are staying attentive. It observes your face position and eye state, then pauses your focus session when you look away and resumes when you return.</p>
+      <p class="welcome-note">Your camera feed is processed on your device. FocusLens does not record or upload your video.</p>
+      <div class="welcome-actions">
+        <button class="btn ghost" type="button" id="welcomeSkip1">Skip</button>
+        <button class="btn primary" type="button" id="welcomeContinue1">Continue</button>
+      </div>
+    </section>
+    <section id="welcomeStep2" class="welcome-step" hidden>
+      <p class="welcome-eyebrow">HOW IT WORKS</p>
+      <h2 id="welcomeModelsTitle">A combination of lightweight vision models</h2>
+      <p><strong>MediaPipe Face Landmarker</strong> detects facial landmarks from your webcam image.</p>
+      <p><strong>FocusLens Rules</strong> evaluate head direction and eye state using configurable thresholds.</p>
+      <p><strong>MLP classifier</strong> classifies each frame as Focused or Not focused. You can choose Rules only, MLP classifier, or Both models.</p>
+      <div class="welcome-actions">
+        <button class="btn ghost" type="button" id="welcomeSkip2">Skip</button>
+        <button class="btn primary" type="button" id="welcomeContinue2">Continue</button>
+      </div>
+    </section>
+  </div>
+</dialog>
+
+<!-- ===== Summary ===== -->
+<dialog id="summary" aria-labelledby="sumTitle">
+  <form method="dialog" class="sum">
+    <h2 id="sumTitle">Session summary</h2>
+    <div class="sum-grid" id="sumGrid"></div>
+    <div id="sumReasons" class="sum-reasons"></div>
+    <div id="sumPauses" class="sum-pauses"></div>
+    <div class="sum-actions">
+      <button class="btn" type="button" id="btnCsv">Download pauses (CSV)</button>
+      <button class="btn" type="button" id="btnCopy">Copy summary</button>
+      <button class="btn primary" value="close">Done</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
