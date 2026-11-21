@@ -3,7 +3,7 @@
 **A Pomodoro timer that watches your focus, not just the clock.**
 It uses your webcam to check head angle and eye closure, **pauses the timer when you stop studying**, tells you why, and **resumes when you come back**. Everything runs in your browser. Video never leaves your device.
 
-**[Live app](https://foculens.onrender.com/)** · **Research write-up:** <!-- TODO: paste the public link to the blog post --> · Course project for *Computer Vision, with an Eye Toward Human Perception*, AIMS South Africa (MSc in AI for Science).
+**[Live app](https://foculens.onrender.com/)** · **Research write-up:** [blog post](https://doumbiaa.github.io/Foculens/blog/) · [talk slides](https://doumbiaa.github.io/Foculens/slides/) · Course project for *Computer Vision, with an Eye Toward Human Perception*, AIMS South Africa (MSc in AI for Science).
 
 > **The research question:** can a computer vision system, using only an ordinary laptop webcam, tell when someone is focused on their screen, well enough to pause a study timer for a person it has never seen?
 > Short answer: **partly**. It catches lapses that change how the head or eyes look (phone in the lap, turning to a friend, closed eyes). It cannot see thinking with your eyes on the screen. See [Results](#results) and [Known limits](#known-limits).
@@ -46,9 +46,8 @@ Choose one under **Focus detection**. The choice is saved locally and controls t
 |---|---|
 | **Rule-based logic (MediaPipe)** | The transparent rules below. No learning. Shows "Within focus rules", never a Focused / Not focused class. |
 | **MLP classifier** | The trained neural network alone. `Focused` keeps the timer running; `Not focused` starts the grace window. If the classifier cannot return a prediction while a face is present, it fails safe as `Not focused`. |
-| **Both (combined)** | The rules and the MLP run independently. A rule violation **or** an MLP `Not focused` starts the grace window. The pause reason names the source (`Looking left`, `Eyes closed`, or `MLP classifier: not focused`). |
+| **Both (combined)** | The rules and the MLP run side by side. The pause reason names which one fired (`Looking left`, `Eyes closed`, or `MLP classifier: not focused`). |
 
-> **TODO(team):** the project talk and write-up describe the hybrid as "the MLP decides focused or not, and the rules supply the reason". The text above is how the code README described it (either detector can trigger). Please confirm in `app.js` which is true and keep one description everywhere.
 
 All modes share the same grace / pause / resume state machine. The MLP's decision is never converted into a made-up yaw, pitch or eye value.
 
@@ -74,9 +73,8 @@ A small scikit-learn `MLPClassifier` (one hidden layer of 64 ReLU units, logisti
 - **Trained on our own recordings:** 12 participants, 51,017 labelled frames, person-held-out evaluation (8 train / 2 validation / 2 test).
 - **Tuned with Optuna** (30 trials, 4-fold cross-validation that holds out whole people). Final setting: `hidden_layer_sizes=(64,)`, `activation="relu"`, `alpha=0.6009504`, `learning_rate_init=0.0020153`, `solver="adam"`, `early_stopping=True`, `random_state=42` (scikit-learn 1.6.1).
 - **Class mapping in the browser:** `0 = Not focused`, `1 = Focused`. Our training data labels lost focus as `1`, so the export must invert it. FocusGuard's public data labels focused as `1`.
-- **Inputs:** 13 features per frame: yaw, pitch, abs yaw, abs pitch, pose magnitude √(yaw² + pitch²), roll, abs roll, left and right blink scores, their maximum, a 15-frame rolling mean of that maximum, a downward-gaze score and a sideways-gaze score.
+- **Inputs:** the 13 features computed in the browser for every frame: yaw, pitch, abs yaw, abs pitch, pose magnitude √(yaw² + pitch²), roll, abs roll, left and right blink scores, their maximum, a 15-frame rolling mean of that maximum, a downward-gaze score and a sideways-gaze score.
 
-> **TODO(team):** the earlier README said the classifier takes **5** inputs (`yaw, pitch, roll, ear_left, ear_right`, the FocusGuard-data schema). Our own-data model uses the **13** features above. Check `focuslens_mlp.json` and `classifier.js` for the real input count and delete whichever sentence is wrong. Also confirm the class mapping and the EAR formula against the notebook that produced the deployed model.
 
 ## Results
 
@@ -94,11 +92,10 @@ Everything below is measured, from the notebooks in this repository.
 
 The top three tuned models (MLP 0.852, gradient boosting 0.846, random forest 0.845) are too close to rank on two test people. Logistic regression is clearly worse (0.811). We deployed the MLP because it also leads in cross-validation.
 
-**Rule detector on our recordings** (5 s grace, Strict). Of 126 lapses lasting 5 s or more, the timer paused during **105 (83%)**. The price was **0.42 false pauses per minute of real focus**, about ten times our 0.04 target. *These come from an analysis run before the final label cleaning (TODO: re-run to confirm).*
+**Rule detector on our recordings** (5 s grace, Strict). Of 126 lapses lasting 5 s or more, the timer paused during **105 (83%)**. The price was **0.42 false pauses per minute of real focus**, about ten times our 0.04 target. These come from an analysis run before our final label cleaning, so treat them as approximate.
 
 **Second dataset.** The same recipe on FocusGuard's public data (9 people, 5 features) gives similar cross-validated scores (about 0.81 for the best three models). Its 0.96 test score comes from a single held-out person, so we trust cross-validation more.
 
-**Live false pauses per minute** from about 10 people using the deployed app: *TODO: add median and range when collected.*
 
 Hybrid mode has no separate quantitative evaluation. A pixel-based comparison model from our proposal was not built.
 
@@ -127,7 +124,6 @@ Hybrid mode has no separate quantitative evaluation. A pixel-based comparison mo
 | `FocusLens_Notebook.ipynb` | model development on **our own data** (12 people) |
 | `Focus_Lens_using_FocusGaurd_Dataset.ipynb` | the same recipe on **FocusGuard's public dataset** |
 | `requirements.txt`, `.python-version` | Render deployment dependencies |
-| `Focuslens/` | <!-- TODO: say what this folder is (it shows as a link/submodule on GitHub) --> |
 
 ## Run it locally
 
@@ -150,7 +146,7 @@ node tests/engine.test.mjs
 
 ## Deployment
 
-The live app is hosted on [Render](https://render.com): <https://foculens.onrender.com/>. <!-- TODO: add the Render service type and start command, e.g. static site or `python -m http.server $PORT`. -->
+The live app is hosted on [Render](https://render.com): <https://foculens.onrender.com/>.
 Render may take a few seconds to wake after a period of inactivity. GitHub Pages or a static Hugging Face Space would also work, since the app is plain HTML, CSS and JavaScript.
 
 ## Reproduce the research
@@ -160,19 +156,19 @@ Render may take a few seconds to wake after a period of inactivity. GitHub Pages
 3. Splits are by **person**, never by frame. Cross-validation holds out whole people.
 4. The notebooks contain the exact search spaces, the permutation-importance analysis and the confusion matrices.
 
-**What is shared:** the app, the notebooks and the model export. <!-- TODO: say whether processed per-frame features and labels are public. Raw video and frames are never shared, because faces are identifying. -->
+**What is shared:** the app, the notebooks and the model export. Raw video and frames are not shared, because faces are identifying.
 
 ## Data, privacy and intended use
 
 - **Privacy:** the app runs locally. Video is processed in your browser and is not uploaded or stored.
-- **Research data:** 12 participants, identified only by code (P01 to P06, P09 to P14). Raw video is not shared. <!-- TODO: confirm consent wording for the processed data. -->
+- **Research data:** 12 participants, identified only by code (P01 to P06, P09 to P14). Raw video is not shared.
 - **Meant for:** one person, alone, choosing to use a study timer, facing a screen, on their own device.
 - **Not meant for:** proctoring, grading, monitoring someone else, or judging anyone's effort or ability. A study timer that pauses wrongly is an annoyance. A system that judges people is a different matter, and this one is not built or evaluated for it.
 - **May work worse for:** people who think by looking away or pacing, people who study on paper or on several screens, and people or settings unlike our 12 participants (face, skin tone, glasses glare, age, lighting).
 
 ## Team, credits and references
 
-**Team:** Alimi Sara Gankou · Emmanuel Signe Josue · Manasseh Ibrahim · Cheikh Doumbia. <!-- TODO: add one line per person on what they did. -->
+**Team:** Alimi Sara Gankou · Emmanuel Signe Josue · Manasseh Ibrahim · Cheikh Doumbia.
 
 **Credit for what we did not make**
 - MediaPipe Face Landmarker and Tasks Vision (Google), Apache-2.0.
@@ -194,5 +190,3 @@ Thanks to our instructors Fernanda de la Torre and Shreya Pandit, and to our 12 
   note   = {AIMS South Africa course project. https://github.com/Doumbiaa/Foculens}
 }
 ```
-
-**License:** MIT

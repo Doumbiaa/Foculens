@@ -43,15 +43,15 @@ pre{background:var(--code);padding:14px 16px;border-radius:8px;overflow-x:auto;f
 pre code{background:none;padding:0;font-size:inherit}
 
 /* top bar */
-.bar{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;padding:16px 0;font:500 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.bar{display:flex;align-items:center;justify-content:space-between;max-width:700px;margin:0 auto;padding:16px 0;font:500 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
 .bar b{color:var(--accent);font-weight:500}
 .bar button{border:1px solid var(--line);background:transparent;border-radius:8px;padding:6px 12px;cursor:pointer;font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
 .bar button:hover{border-color:var(--c1);color:var(--fg)}
 
 /* title block */
-.hero{max-width:1100px;margin:0 auto;padding:36px 0 28px;border-bottom:1px solid var(--line)}
+.hero{max-width:700px;margin:0 auto;padding:36px 0 28px;border-bottom:1px solid var(--line)}
 .kicker{font:500 13px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
-h1{font-family:var(--serif);font-weight:800;font-size:clamp(34px,5.6vw,60px);line-height:1.08;letter-spacing:-.02em;margin:0 0 18px;max-width:900px;text-wrap:balance}
+h1{font-family:var(--serif);font-weight:800;font-size:clamp(32px,5vw,52px);line-height:1.08;letter-spacing:-.02em;margin:0 0 18px;max-width:900px;text-wrap:balance}
 .sub{font-family:var(--serif);font-weight:500;font-size:clamp(18px,2.2vw,24px);line-height:1.4;color:var(--mute);max-width:820px;margin:0 0 30px}
 .meta{display:grid;grid-template-columns:2fr 1.2fr 1.2fr;gap:28px;font-size:14px;line-height:1.55;color:var(--mute)}
 .meta h4{margin:0 0 6px;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
@@ -61,7 +61,7 @@ h1{font-family:var(--serif);font-weight:800;font-size:clamp(34px,5.6vw,60px);lin
 @media(max-width:760px){.meta{grid-template-columns:1fr;gap:18px}}
 
 /* article column */
-.art{max-width:680px;margin:0 auto;position:relative;padding-bottom:40px}
+.art{max-width:700px;margin:0 auto;position:relative;padding-bottom:40px}
 .art>*{min-width:0}
 h2{font-family:var(--serif);font-weight:700;font-size:30px;line-height:1.2;letter-spacing:-.01em;margin:64px 0 14px;padding-top:26px;border-top:1px solid var(--line);text-wrap:balance}
 h3{font-family:var(--serif);font-weight:700;font-size:21px;line-height:1.3;margin:36px 0 8px}
@@ -76,18 +76,19 @@ li{margin:0 0 6px}
 .answer .k{font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
 .answer p:last-child{margin-bottom:0}
 .rq{font-family:var(--serif);font-weight:500;font-size:22px;line-height:1.4;border-left:4px solid var(--c1);padding:4px 0 4px 20px;margin:24px 0}
-.todo{background:var(--todo);color:var(--todo-ink);border-radius:5px;padding:1px 7px;font:500 .8em var(--mono);white-space:normal}
+
 .pill{display:inline-block;border-radius:999px;padding:2px 11px;font-size:13px;font-weight:500;border:1px solid var(--line);color:var(--mute);white-space:nowrap}
 .hl1{color:var(--accent);font-weight:700}.hl3{color:var(--ink-c3);font-weight:700}.hl5{color:var(--ink-c5);font-weight:700}.hl2{color:var(--ink-c2);font-weight:700}
 
 /* margin notes */
 aside.note{font-size:13.5px;line-height:1.55;color:var(--mute);border-left:3px solid var(--line);padding:0 0 0 12px;margin:0 0 16px}
-@media(min-width:1280px){aside.note{float:right;clear:right;width:240px;margin:0 -280px 16px 0}}
+@media(min-width:1200px){aside.note{float:right;clear:right;width:200px;margin:0 -230px 16px 0;font-size:13px}}
+@media(max-width:1199px){aside.note{background:var(--soft);border-left:3px solid var(--c1);padding:8px 12px;border-radius:0 8px 8px 0}}
 
 /* contents */
 nav.toc{display:none}
-@media(min-width:1600px){
-  nav.toc{display:none;position:fixed;left:calc(50% - 340px - 270px);top:96px;width:236px;max-height:calc(100vh - 130px);overflow:auto;font-size:13px;line-height:1.4}
+@media(min-width:1200px){
+  nav.toc{display:none;position:fixed;left:calc(50% - 350px - 230px);top:96px;width:200px;max-height:calc(100vh - 130px);overflow:auto;font-size:13px;line-height:1.4}
   nav.toc.show{display:block}
   nav.toc h5{margin:0 0 8px;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
   nav.toc a{display:block;padding:5px 0 5px 12px;border-left:2px solid var(--line);color:var(--mute);text-decoration:none}
@@ -97,15 +98,15 @@ nav.toc{display:none}
 
 /* figures */
 figure{margin:28px 0;padding:0}
-figure.wide{width:min(1040px,calc(100vw - 32px));margin-left:50%;transform:translateX(-50%)}
+figure.wide{width:auto}
 figcaption{font-size:14px;line-height:1.55;color:var(--mute);margin-top:10px}
 figcaption b{color:var(--fg)}
 .fig{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:18px}
 .fig svg{display:block;width:100%;height:auto}
 .fig.plain{background:transparent;border:0;padding:0}
-.tx{fill:var(--mute);font:12px var(--sans)}
+.tx{fill:var(--mute);font:13px var(--sans)}
 .tx.b{fill:var(--fg);font-weight:500}
-.tx.big{font-size:14px}
+.tx.big{font-size:15px}
 .tx.mid{text-anchor:middle}.tx.end{text-anchor:end}
 .grid{stroke:var(--line);stroke-width:1}
 .axis{stroke:var(--mute);stroke-width:1}
@@ -205,7 +206,7 @@ ol.refs li{padding-left:34px;text-indent:-34px;margin-bottom:10px}
 ol.refs li b.n{display:inline-block;width:34px;text-indent:0;color:var(--mute);font-weight:500}
 ol.refs li:target{background:var(--accent-soft);border-radius:6px}
 .bib{white-space:pre-wrap}
-footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid var(--line);font-size:13px;color:var(--mute)}
+footer{max-width:700px;margin:0 auto;padding:30px 0 60px;border-top:1px solid var(--line);font-size:13px;color:var(--mute)}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -220,7 +221,7 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
   <p class="sub">We built FocusLens, a Pomodoro timer that pauses when you look away, recorded 12 students to test it, and measured what a camera can and cannot see of attention.</p>
   <div class="meta">
     <div><h4>Authors</h4><div class="names">Alimi Sara Gankou · Emmanuel Signe Josue · Manasseh Ibrahim · Cheikh Doumbia</div><div>AIMS South Africa, MSc in AI for Science</div></div>
-    <div><h4>Published</h4><div>20 November 2026</div><div>Course project. Demo day 16 November 2026.</div></div>
+    <div><h4>Published</h4><div>20 November 2026</div><div>Course project, AIMS South Africa</div></div>
     <div><h4>Try and read</h4><div><a href="https://foculens.onrender.com/" target="_blank" rel="noopener">Live app</a><br><a href="https://github.com/Doumbiaa/Foculens" target="_blank" rel="noopener">Code and notebooks on GitHub</a></div></div>
   </div>
 </header>
@@ -231,7 +232,7 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
 
 <div class="answer" style="margin-top:30px">
   <div class="k">The short answer</div>
-  <p><b>Partly.</b> For lapses that change how your head or eyes look, such as a phone in your lap, a turn toward a friend, or closed eyes, a webcam can tell. Our rule-based detector paused for <span class="hl1 num">83%</span> of lapses lasting five seconds or more, and a small neural network labelled <span class="hl1 num">86.6%</span> of frames correctly for two people it had never seen. For lapses that happen inside the head, such as thinking with your eyes on the screen, it cannot. It also pauses wrongly: <span class="hl3 num">0.42</span> times per minute of real focus on our recordings, about ten times our own target. How often live users see wrong pauses is <span class="todo">pending: about 10 testers</span>.</p>
+  <p><b>Partly.</b> For lapses that change how your head or eyes look, such as a phone in your lap, a turn toward a friend, or closed eyes, a webcam can tell. Our rule-based detector paused for <span class="hl1 num">83%</span> of lapses lasting five seconds or more, and a small neural network labelled <span class="hl1 num">86.6%</span> of frames correctly for two people it had never seen. For lapses that happen inside the head, such as thinking with your eyes on the screen, it cannot. It also pauses wrongly: <span class="hl3 num">0.42</span> times per minute of real focus on our recordings, about ten times our own target.</p>
 </div>
 
 <!-- ===================== 1. INTRO ===================== -->
@@ -270,6 +271,7 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
 <h2 id="seen">What a webcam sees of a lapse</h2>
 <p>MediaPipe's face landmarker finds 478 points on a face in each frame and estimates head rotation and 52 blendshape scores<a class="cite" href="#r6">6</a>. We use only a few numbers from that: how far the head is turned (<b>yaw</b>) and tilted (<b>pitch</b>), measured from where the person normally sits, and how closed each eye is (a <b>blink score</b> from 0 to 1). Try them below. The thresholds are the ones in the app.</p>
 
+<aside class="note"><b>Try it.</b> Drag the three sliders and watch the verdict change. Switch strictness to see the limit move.</aside>
 <figure class="wide">
   <div class="fig">
     <div class="ctl"><span>Strictness</span><span class="seg" id="pgStrict"><button aria-pressed="true" data-v="15">Strict 15°</button><button aria-pressed="false" data-v="20">Balanced 20°</button><button aria-pressed="false" data-v="25">Relaxed 25°</button></span></div>
@@ -296,6 +298,7 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
 
 <p>A rule alone would pause on every blink and every glance at a notebook. So the timer waits. Anything under half a second is ignored, and then the person gets a grace period, 5 seconds by default, before the timer pauses. It resumes 0.3 seconds after they are back in range. The simulator below runs those rules over a made-up version of Alice's night so you can see the trade-off. The grace period and the angle limit pull in opposite directions.</p>
 
+<aside class="note"><b>Try it.</b> Change the grace period and the angle limit. Watch the thinking block: no setting catches it.</aside>
 <figure class="wide">
   <div class="fig">
     <div class="ctl"><span>Grace period</span><span class="seg" id="smGrace"><button aria-pressed="false" data-v="3">3 s</button><button aria-pressed="true" data-v="5">5 s</button><button aria-pressed="false" data-v="10">10 s</button><button aria-pressed="false" data-v="15">15 s</button><button aria-pressed="false" data-v="30">30 s</button></span>
@@ -331,10 +334,10 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
 <p>The large L2 penalty is the notable choice. It keeps the network small in effect and, as Figure 8 shows, it cut the gap between training and held-out scores.</p>
 
 <h3 id="hybrid">Detector 3: both together</h3>
-<p>In the hybrid mode the MLP decides <i>whether</i> the person is focused, and the rules supply the <i>reason</i> (left, right, down, up, eyes closed), so that every pause explains itself. We did not evaluate the hybrid mode separately. Its verdict is the MLP's.</p>
+<p>In the combined mode the rules and the MLP run side by side, and the pause reason names which one fired (left, right, down, up, eyes closed, or the MLP's verdict), so that every pause explains itself. We did not evaluate this mode separately.</p>
 
 <h3 id="collect">Recording 12 people</h3>
-<p>No public dataset matched our setting, so we recorded our own. Twelve participants (codes P01 to P06 and P09 to P14) each studied for about five minutes, reading a paper or learning to code, in a session with an annotator watching. Participants are identified only by code. <span class="todo">confirm consent wording</span> A collection tool, written for this project, logs the MediaPipe values for every frame along with the state of a key.</p>
+<p>No public dataset matched our setting, so we recorded our own. Twelve participants (codes P01 to P06 and P09 to P14) each studied for about five minutes, reading a paper or learning to code, in a session with an annotator watching. Participants are identified only by code. A collection tool, written for this project, logs the MediaPipe values for every frame along with the state of a key.</p>
 
 <figure class="wide">
   <div class="fig" id="figSetup"></div>
@@ -370,9 +373,6 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
 <h3 id="second">A second dataset</h3>
 <p>To see whether our result depends on our own recordings, we ran the same recipe on FocusGuard's public data<a class="cite" href="#r4">4</a>: 9 people, 144,793 frames, 5 features (yaw, pitch, roll and the eye aspect ratio<a class="cite" href="#r5">5</a> of each eye). The split is 6 people for training, 2 for validation and 1 for test. Note that its label 1 means <i>focused</i>, the reverse of ours. This is a different set of people, labels, tasks and features, so the two sets of scores are not a ranking of datasets.</p>
 
-<h3 id="protocol">Live testing with users</h3>
-<p>Scores on recordings do not tell us what using the app feels like. So about 10 people who were not in the recordings use the deployed app for one-minute sessions while really studying, facing the screen, and count each time the timer pauses although they were still focusing. Each tester does this once per detector (rules, MLP, both). We report the count per minute for every tester and the median. Section <a href="#app">The app</a> shows where those numbers will appear.</p>
-
 <!-- ===================== 5. RESULTS ===================== -->
 <h2 id="results">What we found</h2>
 <div class="answer">
@@ -390,6 +390,7 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
 
 <p>The second boring explanation is that the network has memorised its training people. Two checks point against it. The test people were never seen in training, and cross-validation over held-out people gives a similar score (0.827 ± 0.028 macro F1) to the test (0.852). Both numbers tell us the model generalises somewhat to new people. With only 12 people, "somewhat" is the strongest word the data supports.</p>
 
+<aside class="note"><b>Try it.</b> Click any of the four cells to read what it means.</aside>
 <figure class="wide">
   <div class="fig">
     <div class="cm" id="cm" role="group" aria-label="Confusion matrix on the test people"></div>
@@ -401,6 +402,7 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
 <h3 id="r-models">Four models, tuned and untuned</h3>
 <p>We compared four model families: logistic regression, random forest, gradient boosting and the MLP. We ran each untuned, then tuned. The dot plot shows three scores per model. The gap between the hollow circle (score on the training people) and the filled circle (cross-validated score on held-out people) is overfitting.</p>
 
+<aside class="note"><b>Tip.</b> Hover a marker to see its exact score.</aside>
 <figure class="wide">
   <div class="fig" id="figDots"></div>
   <figcaption><b>Figure 9. Models, trained on our data and on FocusGuard's.</b> Hollow circle: macro F1 on the people the model trained on. Filled circle with bar: cross-validated macro F1 on held-out people, ± one standard deviation across folds. Diamond: macro F1 on the test people. Tuned models only. Appendix D has every number, including untuned models.</figcaption>
@@ -412,6 +414,7 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
 <h3 id="r-look">What the network looks at</h3>
 <p>We measured how much the test score drops when one feature's values are shuffled (permutation importance, 10 repeats, on the test people). We also show the Gini importance of a random forest, which asks a different question: which features did the trees split on?</p>
 
+<aside class="note"><b>Try it.</b> Flip between the two views and compare the rankings. They disagree on yaw.</aside>
 <figure class="wide">
   <div class="fig">
     <div class="ctl"><span>View</span><span class="seg" id="impSeg"><button aria-pressed="true" data-v="perm">Permutation (MLP, test people)</button><button aria-pressed="false" data-v="gini">Gini (random forest, training)</button></span></div>
@@ -427,7 +430,7 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
 
 <figure class="wide">
   <div class="fig" id="figRules"></div>
-  <figcaption><b>Figure 11. Rule detector on our 12 recordings (5 s grace, strict mode).</b> Left: share of lapses of 5 s or more that the timer paused for. Right: false pauses per minute of real focus. Notes mode saves two false pauses but misses many looking-down lapses. These figures come from an analysis run before the final label cleaning <span class="todo">re-run to confirm</span>.</figcaption>
+  <figcaption><b>Figure 11. Rule detector on our 12 recordings (5 s grace, strict mode).</b> Left: share of lapses of 5 s or more that the timer paused for. Right: false pauses per minute of real focus. Notes mode saves two false pauses but misses many looking-down lapses. These figures come from an analysis run before our final label cleaning, so treat them as approximate.</figcaption>
 </figure>
 
 <p>False pauses are not spread evenly. Two of the 12 sessions (P03 and P06) produced 11 of the 14, and both were annotated by the same person with many dropped short presses. We read that as a hint about label noise, not a finding.</p>
@@ -449,7 +452,7 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
 </figure>
 
 <!-- ===================== 6. APP ===================== -->
-<h2 id="app">The app, and what its users say</h2>
+<h2 id="app">The app</h2>
 <p>FocusLens is a static web page in plain HTML, CSS and JavaScript, so it runs on any computer with a CPU and a webcam and is hosted on Render. It has a light and a dark theme, keeps working when the tab is minimised, and a sound warns you before the pause. You can change the grace window (3 to 30 s) and the strictness, switch between the three detectors, turn on Notes mode, blur your own video, recalibrate, and send feedback. <a href="https://foculens.onrender.com/" target="_blank" rel="noopener">Try it here</a>.</p>
 
 <figure>
@@ -457,24 +460,17 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
   <figcaption><b>Video.</b> The live app with the MLP detector. Sound is on in the recording.</figcaption>
 </figure>
 
-<h3 id="live">False pauses per minute, from real users</h3>
-<p>This is the figure that tests the app on people and sessions outside our recordings. Each dot is one tester's one-minute session. The dashed line is the 0.04 per minute target from our proposal.</p>
-
-<figure class="wide">
-  <div class="fig" id="figLive"></div>
-  <figcaption><b>Figure 13. Live false pauses per minute.</b> Each dot: one tester during one real-study minute, counting pauses when they were still focusing. Bar: median. <span class="todo">Waiting for about 10 testers. Fill in the FEEDBACK object in this page.</span></figcaption>
-</figure>
-
 <!-- ===================== 7. FAILS ===================== -->
 <h2 id="fails">Where it fails</h2>
 <p>These are the failures we know about. Some we measured, some we saw in the live app, and some follow from what the camera can and cannot see. We say which is which.</p>
 
+<aside class="note"><b>Try it.</b> Click each failure. "Evidence" says whether we measured it or saw it.</aside>
 <figure class="wide">
   <div class="fig">
     <div class="tabs" role="tablist" id="failTabs"></div>
     <div class="fx" id="failBody"></div>
   </div>
-  <figcaption><b>Figure 14. Four failures.</b> Pick one. "Evidence" says how we know.</figcaption>
+  <figcaption><b>Figure 13. Four failures.</b> Pick one. "Evidence" says how we know.</figcaption>
 </figure>
 
 <h3 id="intended">What it is for, and who it may fail</h3>
@@ -506,7 +502,7 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
   <li>A <b>thinking mode</b> that tolerates looking up or away for longer, and a way to tell it apart from a phone.</li>
   <li><b>Multi-face handling</b> so that only the user's face counts.</li>
   <li><b>Automatic notes detection</b>, so that Notes mode does not need to be switched on by hand.</li>
-  <li>False pauses per minute on <b>many more live users</b>, with different faces, glasses and lighting, and a per-group breakdown.</li>
+  <li>Testing with <b>many more people</b> in real use, with different faces, glasses and lighting, and a per-group breakdown.</li>
   <li>A <b>temporal model</b> over a window of frames, and the pixel-based comparison from our proposal.</li>
 </ul>
 <p>So, can a CV system tell when someone is focused? It can tell when they look unfocused. Whether that is good enough depends on what a wrong pause costs. For a study timer a wrong pause is a small annoyance, and the right pause is useful. For anything that judges a person, the answer is no.</p>
@@ -525,12 +521,10 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
 
 <!-- ===================== 9. REPRODUCE ===================== -->
 <h2 id="repro">Reproduce it</h2>
-<p>The <a href="https://github.com/Doumbiaa/Foculens" target="_blank" rel="noopener">GitHub repository</a> holds the app, the notebooks (<code>FocusLens_Notebook.ipynb</code> for our data, <code>Focus_Lens_using_FocusGaurd_Dataset.ipynb</code> for FocusGuard's) and the integration specification. The notebooks use a fixed seed of 42 and contain the exact search spaces. We share what our participants' consent allows. <span class="todo">confirm what is public: processed features? labels?</span> Raw frames are not shared, since faces are identifying.</p>
+<p>The <a href="https://github.com/Doumbiaa/Foculens" target="_blank" rel="noopener">GitHub repository</a> holds the app, the notebooks (<code>FocusLens_Notebook.ipynb</code> for our data, <code>Focus_Lens_using_FocusGaurd_Dataset.ipynb</code> for FocusGuard's) and the integration specification. The notebooks use a fixed seed of 42 and contain the exact search spaces. Raw video and frames are not shared, since faces are identifying.</p>
 
 <h3 id="ack">Acknowledgments</h3>
 <p>We thank our 12 participants, our instructors Fernanda de la Torre and Shreya Pandit, and the FocusGuard team for publishing their data and code. The layout of this post follows Olah, Mordvintsev and Schubert's <i>Feature Visualization</i><a class="cite" href="#r10">10</a> in Distill. The browser app's rule logic, the collection tool and the first draft of this post were written with help from Claude, an AI assistant made by Anthropic. We checked the numbers against our notebooks.</p>
-<h3 id="contrib">Author contributions</h3>
-<p><b>Emmanuel Signe Josue</b> led model training, development and the notebooks. <b>Cheikh Doumbia</b> led software and deployment. <b>Alimi Sara Gankou</b> <span class="todo">fill in</span>. <b>Manasseh Ibrahim</b> <span class="todo">fill in</span>.</p>
 <h3 id="updates">Updates and corrections</h3>
 <p>None yet. If you find an error, please open an issue on the GitHub repository. Figures made by us are original. No figure is reused from another source.</p>
 
@@ -640,9 +634,6 @@ footer{max-width:680px;margin:0 auto;padding:30px 0 60px;border-top:1px solid va
 
 <script>
 /* ============ data (all from our notebooks and analysis logs) ============ */
-// Live testers: one number per tester = false pauses during one real-study minute. Fill these in.
-const FEEDBACK = { rules:[], mlp:[], both:[] };
-const TARGET = 0.04;
 
 const MODELS_OURS=[
  {name:'MLP',train:.893,cv:.827,sd:.028,test:.852},
@@ -756,7 +747,7 @@ $('#themeBtn').onclick=()=>{const cur=document.documentElement.getAttribute('dat
   }
   function draw(){
     const {paused,iv}=run();
-    const W=900,L0=70,R0=16,x=t=>L0+t/T*(W-L0-R0);
+    const W=900,L0=90,R0=34,x=t=>L0+t/T*(W-L0-R0);
     let s='';
     // episode band
     EP.forEach(e=>{s+=`<rect x="${x(e.a)}" y="22" width="${x(e.b)-x(e.a)}" height="34" fill="var(${e.c})" opacity=".92"/><text x="${(x(e.a)+x(e.b))/2}" y="44" class="tx mid" style="fill:#0b1626;font-weight:700">${e.n}</text>`});
@@ -774,7 +765,6 @@ $('#themeBtn').onclick=()=>{const cur=document.documentElement.getAttribute('dat
     const py=top+hh+26;
     s+=`<text x="${L0-8}" y="${py+18}" class="tx end">Timer</text><rect x="${L0}" y="${py}" width="${W-L0-R0}" height="26" rx="4" fill="var(--line)"/>`;
     iv.forEach(([a,b])=>{s+=`<rect x="${x(a)}" y="${py}" width="${Math.max(2,x(b)-x(a))}" height="26" fill="var(--c5)"/>`});
-    s+=`<text x="${L0+6}" y="${py+18}" class="tx" style="fill:var(--mute)">running</text>`;
     // axis
     for(let m=0;m<=25;m+=5){s+=`<line x1="${x(m*60)}" x2="${x(m*60)}" y1="${py+30}" y2="${py+36}" class="axis"/><text x="${x(m*60)}" y="${py+50}" class="tx mid">${m}${m===25?' min':''}</text>`}
     const H=py+58;
@@ -813,13 +803,13 @@ $('#figPipe').innerHTML=`<svg viewBox="0 0 980 190" role="img" aria-label="Pipel
 $('#figSetup').innerHTML=`<svg viewBox="0 0 800 300" role="img" aria-label="Recording setup: a participant studies at one monitor while an annotator beside them holds the Space key when focus is lost">
 <defs><marker id="ah2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--mute)"/></marker></defs>
 <g><circle cx="150" cy="86" r="26" class="box"/><path d="M150 112v58M150 130l-34 24M150 130l34 24" class="arr" stroke="var(--fg)"/>
-<rect x="60" y="170" width="180" height="96" rx="8" class="box"/><text x="150" y="200" class="tx mid b">Participant's screen</text><text x="150" y="218" class="tx mid">paper or code, plus</text><text x="150" y="234" class="tx mid">prompts in the scripted block</text><text x="150" y="252" class="tx mid">webcam logs MediaPipe values</text>
+<rect x="35" y="170" width="230" height="96" rx="8" class="box"/><text x="150" y="200" class="tx mid b">Participant's screen</text><text x="150" y="218" class="tx mid">paper or code, plus</text><text x="150" y="234" class="tx mid">prompts in the scripted block</text><text x="150" y="252" class="tx mid">webcam logs MediaPipe values</text>
 <text x="150" y="40" class="tx mid b big">Participant</text></g>
 <g><circle cx="650" cy="86" r="26" class="box"/><path d="M650 112v58M650 130l-34 24M650 130l34 24" class="arr" stroke="var(--fg)"/>
-<rect x="560" y="170" width="180" height="96" rx="8" class="box"/><text x="650" y="200" class="tx mid b">Annotator's screen</text><text x="650" y="218" class="tx mid">live MediaPipe values</text><text x="650" y="234" class="tx mid">and key state, nothing</text><text x="650" y="252" class="tx mid">shown to the participant</text>
+<rect x="535" y="170" width="230" height="96" rx="8" class="box"/><text x="650" y="200" class="tx mid b">Annotator's screen</text><text x="650" y="218" class="tx mid">live MediaPipe values</text><text x="650" y="234" class="tx mid">and key state, nothing</text><text x="650" y="252" class="tx mid">shown to the participant</text>
 <text x="650" y="40" class="tx mid b big">Annotator</text></g>
 <path d="M610 86H198" class="arr" stroke-dasharray="6 5" marker-end="url(#ah2)"/><text x="404" y="76" class="tx mid">watches the participant directly</text>
-<rect x="330" y="150" width="140" height="44" rx="8" fill="var(--c3)" opacity=".9"/><text x="400" y="178" class="tx mid b" style="fill:#2a1d00">Hold SPACE = lost focus</text>
+<rect x="310" y="150" width="180" height="44" rx="8" fill="var(--c3)" opacity=".9"/><text x="400" y="178" class="tx mid b" style="fill:#2a1d00">Hold SPACE = lost focus</text>
 <text x="400" y="222" class="tx mid">each frame is saved with the key state</text>
 </svg>`;
 
@@ -947,32 +937,7 @@ seg('#impSeg',drawImp);drawImp('perm');
   $('#figRules').innerHTML=`<svg viewBox="0 0 ${W} 236" role="img" aria-label="Rule detector: lapse detection rates and false pauses per minute by segment">${s}</svg>`;
 })();
 
-/* ============ Figure 13: live feedback ============ */
-(function(){
-  const rows=[['Rules','rules','var(--c1)'],['MLP','mlp','var(--c2)'],['Both','both','var(--c3)']];
-  const all=rows.flatMap(r=>FEEDBACK[r[1]]);
-  const W=760,L=90,R=30,T=26,RH=64,H=T+rows.length*RH+36;
-  const max=Math.max(1,...all.map(v=>Math.ceil(v)));
-  const x=v=>L+v/max*(W-L-R);
-  let s='';
-  for(let v=0;v<=max+1e-9;v+=max<=2?.5:1){s+=`<line x1="${x(v)}" x2="${x(v)}" y1="${T-6}" y2="${H-30}" class="grid"/><text x="${x(v)}" y="${H-12}" class="tx mid">${v}</text>`}
-  s+=`<text x="${(L+W-R)/2}" y="${H}" class="tx mid" style="font-size:11px">false pauses per minute of real study</text>`;
-  s+=`<line x1="${x(TARGET)}" x2="${x(TARGET)}" y1="${T-6}" y2="${H-30}" stroke="var(--c5)" stroke-dasharray="5 4" stroke-width="1.5"/><text x="${x(TARGET)+6}" y="${T+4}" class="tx" style="fill:var(--ink-c5)">target ${TARGET}</text>`;
-  rows.forEach((r,i)=>{
-    const y=T+i*RH+RH/2,vals=FEEDBACK[r[1]];
-    s+=`<text x="${L-12}" y="${y+4}" class="tx end b">${r[0]}</text><line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" class="conn"/>`;
-    if(vals.length){
-      const sorted=[...vals].sort((a,b)=>a-b),med=sorted.length%2?sorted[(sorted.length-1)/2]:(sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
-      vals.forEach((v,k)=>{s+=`<circle cx="${x(v)}" cy="${y+((k%3)-1)*9}" r="6" fill="${r[2]}" opacity=".8"><title>${r[0]}: ${v}</title></circle>`});
-      s+=`<line x1="${x(med)}" x2="${x(med)}" y1="${y-20}" y2="${y+20}" stroke="var(--fg)" stroke-width="3"/><text x="${x(med)+6}" y="${y-22}" class="tx b">median ${med.toFixed(2)} (n=${vals.length})</text>`;
-    }else{
-      s+=`<text x="${(L+W-R)/2}" y="${y-8}" class="tx mid" style="font-style:italic">waiting for testers</text>`;
-    }
-  });
-  $('#figLive').innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Dot plot of false pauses per minute reported by live testers for each detector, with the 0.04 target">${s}</svg>`;
-})();
-
-/* ============ Figure 14: failure explorer ============ */
+/* ============ Figure 13: failure explorer ============ */
 (function(){
   const art={
    faces:`<svg viewBox="0 0 200 170"><circle cx="70" cy="70" r="34" class="box"/><circle cx="62" cy="64" r="4" class="f1"/><circle cx="82" cy="64" r="4" class="f1"/><path d="M58 84q12 8 24 0" fill="none" stroke="var(--mute)" stroke-width="3" stroke-linecap="round"/><circle cx="145" cy="58" r="27" class="box" style="stroke-dasharray:5 4"/><circle cx="138" cy="53" r="3.5" class="f4"/><circle cx="153" cy="53" r="3.5" class="f4"/><path d="M137 69q8 6 17 0" fill="none" stroke="var(--mute)" stroke-width="3" stroke-linecap="round"/><text x="100" y="140" class="tx mid">whose face counts?</text></svg>`,
